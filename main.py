@@ -27,7 +27,6 @@ def readWorkload():
     for line in lines:
         sample = line.split(',')[1][0:-1]
         wrkld.append(math.ceil(float(sample)))
-
     return  wrkld
 
 
@@ -69,14 +68,12 @@ def computeReplicasLinear():
 
 
 def computeReplicasLinearBinPack():
-    #600
-    currentBins = 1
     for t in range(7207):
         part = point[t]/5.0
         items = []
         for i in  range(5):
             items.append(part)
-        bins = LeastLoaded(items)
+        bins = scaledLeastLoaded(items, 1)
 
         ###########################################
 
@@ -138,19 +135,7 @@ def computeReplicasLinearBinPackFraction():
     # print(replicasbin)
     # print(latencies)
 
-# def simulate():
-#     for p in range(5):
-#         par = Partition(str(p),0, 0)
-#         partitions.append(par)
-#
-#     c = Consumer(0,partitions, 175,0)
-#     print(c.patitions[0])
-#     items= []
-#
-#     for p in partitions:
-#         p.lamda= 150
-#         items.append(p.lamda)
-#     LeastLoaded(items)
+
 
 
 
@@ -158,7 +143,6 @@ def computeReplicasLinearBinPackFraction():
 
 
 def scaledLeastLoaded(items, f):
-    previousitems = []
     for i in range(len(items)):
         print(items[i])
 
@@ -189,37 +173,11 @@ def scaledLeastLoaded(items, f):
 
 #########################################################
 
-def LeastLoaded(items):
-     previousitems = []
-     for i in range(len(items)):
-         print(items[i])
-
-     items.sort(reverse=True)
-     bincount=1
-
-     while True:
-        bins = []
-        for i in range(bincount):
-            bin = 85
-            bins.append(bin)
-
-        for j in range(len(items)):
-            bins.sort(reverse=True)
-            for id in range(bincount):
-                if items[j] < bins[id]:
-                    bins[id] = bins[id]- items[j]
-                    break
-            else:
-                bincount += 1
-                break
-        else:
-            break
-     print(bincount)
-     return bincount
 
 
 
-def computeLatencies(Events, bins ):
+
+def computeLatencies(Events, bins):
     for e in range(Events):
         latencies.append(5*(e)/bins)
 
@@ -248,7 +206,6 @@ def computeReplicaMinutes():
 
 if __name__ == '__main__':
      wrkld = readWorkload()
-     #print(wrkld)
      plotWorkload()
      computeReplicasLinear()
      plotWorkloadWithReplicas()
@@ -256,6 +213,4 @@ if __name__ == '__main__':
      plotWorkloadWithReplicasBinPack()
      computeReplicaMinutes()
 
-     #simulate()
-     #LeastLoaded()
 
